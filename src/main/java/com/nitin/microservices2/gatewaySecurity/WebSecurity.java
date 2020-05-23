@@ -24,8 +24,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		http.headers().frameOptions().disable();
 		
 		http.authorizeRequests()
+		.antMatchers("/**").permitAll()
+		.antMatchers(env.getProperty("api.zuul.actuator.url")).permitAll()
 		.antMatchers(env.getProperty("api.h2console.url")).permitAll()
-		.antMatchers(HttpMethod.GET,env.getProperty("api.users.health.check")).permitAll()
+		.antMatchers(env.getProperty("api.users.health.check")).permitAll()
 		.antMatchers(HttpMethod.GET,"users-ws/users/").permitAll()
 		//Allow Registration
 		.antMatchers(HttpMethod.POST,env.getProperty("api.users.registration.url")).permitAll()
